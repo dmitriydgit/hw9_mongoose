@@ -35,10 +35,8 @@
 	function initListeners() {
 		createPost.addEventListener('click', createPostListener);
 		feed.addEventListener('click', editPostListener);
-
+		feed.addEventListener('click', deletePost);
 	}
-
-
 
 	function renderPosts(posts) {
 		feed.innerHTML = '';
@@ -111,15 +109,11 @@
 						postPublishEdit.removeEventListener('click', publishHandler);
 						getPostList();
 					});
-
-
 				};
 
 				postPublishEdit.addEventListener('click', publishHandler);
 			})
 	}
-
-
 
 
 	function createPostListener() {
@@ -148,8 +142,6 @@
 				getPostList();
 			})
 
-
-
 		};
 		postPublishCreate.addEventListener('click', createHandler);
 
@@ -165,9 +157,22 @@
 		});
 	};
 
+	function deletePost(event) {
+		if (!event.target.classList.contains("close")) {
+			return;
+		}
 
-
-
-
+		const id = event.target.getAttribute("data-id");
+		fetch(`${apiUrl}/${id}`, {
+			method: 'delete'
+		})
+			.then((res) => {
+				console.log(res);
+				getPostList();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
 })();
