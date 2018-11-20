@@ -12,7 +12,7 @@ function getPostList(req, res) {
 		function (err, posts) {
 			if (err) {
 				console.log(err);
-				res.status(500).send("Search fail")
+				res.status(500).json({ success: false, message: 'err.massage' });
 			}
 			res.json(posts);
 		})
@@ -24,6 +24,7 @@ function getPostByID(req, res) {
 	PostModel.findById(postId, function (err, post) {
 		if (err) {
 			console.log(err);
+			res.status(500).json({ success: false, message: 'err.massage' });
 		}
 		res.json(post);
 	})
@@ -35,20 +36,20 @@ function createPost(req, res) {
 
 	if (req.files) {
 		var fileName = Date.now();
-		var fileLocation = `/assets/img/${fileName}.jpeg`;
+		var fileLocation = `/assets/img/${fileName}.jpeg`; //хардкодом jpg?
 		var sampleFile = req.files.picture;
 		sampleFile.mv('./public' + fileLocation, function (err) {
 			if (err) {
 				console.log(err);
-				res.status(500).send("File not saved")
+				res.status(500).json({ success: false, message: err.massage });
 			}
 			console.log("File saved");
 			savePost(postText, fileLocation);
-			res.status(201).send({ status: 'created' });
+			res.status(201).json({ success: true, message: "created" });
 		});
 	} else {
 		savePost(postText, postPicture);
-		res.status(201).send({ status: 'created' });
+		res.status(201).json({ success: true, message: "created" });
 	};
 };
 
@@ -64,24 +65,24 @@ function editPost(req, res) {
 		sampleFile.mv('./public' + fileLocation, function (err) {
 			if (err) {
 				console.log(err);
-				res.status(500).send("File not saved")
+				res.status(500).json({ success: false, message: "File not saved" });
 			}
 			updatePost(postId, postText, fileLocation);
 			console.log("File saved");
-			res.status(201).send({ status: 'updated' });
+			res.status(201).json({ success: true, message: 'updated' });
 
 		});
 	} else {
 		updatePost(postId, postText, postPicture);
 		console.log("File saved");
-		res.status(201).send({ status: 'updated' });
+		res.status(201).json({ success: true, message: 'updated' });
 	};
 };
 
 function deletePost(req, res) {
 	var postId = req.params.postId;
 	deletePostById(postId);
-	res.status(302).send('Deleted')
+	res.status(302).json({ success: true, message: 'deleted' });
 };
 
 function savePost(postText, postPicture) {

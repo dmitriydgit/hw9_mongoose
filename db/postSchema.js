@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-//var Schema = mongoose.Schema;
-
 var PostSchema = mongoose.Schema({
 	//_id: mongoose.Schema.Types.ObjectId,
 	author: {
@@ -12,8 +10,6 @@ var PostSchema = mongoose.Schema({
 	},
 	publicationDate: {
 		type: Date,
-		//default: Date.now,
-		required: true
 	},
 	text: {
 		type: String,

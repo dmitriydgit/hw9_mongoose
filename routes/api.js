@@ -3,25 +3,20 @@ const router = express.Router();
 const postController = require('../controllers/postController')
 
 
-router.get('/posts', function (req, res) {
-	postController.getPostList(req, res);
-});
+router.get('/posts', postController.getPostList);
 
-router.get('/posts/:postId/', function (req, res) {
-	postController.getPostByID(req, res);
-});
+router.get('/posts/:postId', postController.getPostByID);
 
-router.post('/posts', function (req, res) {
-	postController.createPost(req, res);
-});
+router.post('/posts', postController.createPost);
 
-router.patch('/posts/:postId/', function (req, res) {
-	postController.editPost(req, res);
-});
+router.patch('/posts/:postId', postController.editPost);
 
-router.delete('/posts/:postId/', function (req, res) {
-	postController.deletePost(req, res);
-});
+router.delete('/posts/:postId', postController.deletePost);
 
 module.exports = router;
 
+//    mongoose.disconnect(); после save зачем??
+// когда редактируем в консоли (node:5431) DeprecationWarning: collection.findAndModify is deprecated. Use findOneAndUpdate, findOneAndReplace or findOneAndDelete instead.
+// нужен пример работы с мидлвэйр (когда сохраняем пост)
+//картинка сохраняется в jpg/ как вытащить формат картинки?
+//mongoose.set('useFindAndModify', false);
