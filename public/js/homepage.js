@@ -57,10 +57,10 @@
             </p>
 
             <div class="boy" data-grid="images"><img style="display: inline-block; width: 346px; height: 335px; margin-bottom: 10px; margin-right: 0px; vertical-align: bottom;" data-width="640" data-height="640" data-action="zoom" src="${post.picture}"></div>
-            <a href="#postModalEdit" class="boa" data-toggle="modal" data-id="${post.id}">
-                <button class="cg nz ok" data-id="${post.id}">Редактировать пост</button>
+            <a href="#postModalEdit" class="boa" data-toggle="modal" data-id="${post._id}">
+                <button class="cg nz ok" data-id="${post._id}">Редактировать пост</button>
             </a>
-                <button type="button" class="close" aria-hidden="true" title="Удалить">×</button>
+                <button type="button" class="close" data-id="${post._id}" aria-hidden="true" title="Удалить">×</button>
           </div>
         </li>`
 		})
@@ -103,13 +103,13 @@
 						formData.append('picture', postImageEdit.getAttribute('src'));
 					}
 
-					fetch(apiUrl, {
+					fetch(`${apiUrl}/${id}`, {
 						method: 'PATCH',
 						body: formData
 					}).then(response => {
 						console.log(response);
 						postPublishEdit.removeEventListener('click', publishHandler);
-						init();
+						getPostList();
 					});
 
 
@@ -145,7 +145,7 @@
 				postPublishCreate.removeEventListener('click', createHandler);
 				postTextCreate.value = '';
 				postAttachCreate.value = '';
-				getPostList()
+				getPostList();
 			})
 
 
@@ -164,5 +164,10 @@
 			}
 		});
 	};
+
+
+
+
+
 
 })();
